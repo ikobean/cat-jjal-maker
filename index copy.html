@@ -43,6 +43,9 @@
       getItem: (key) => {
         return JSON.parse(localStorage.getItem(key));
       },
+      removeItem: (key) => {
+        localStorage.removeItem(key)
+      }
     };
 
     console.log("야옹");
@@ -56,15 +59,16 @@
 
 
 
+    const 여기다가그려 = document.querySelector('#app');
+
 
     const Title = (props) => {
       return (<h1>{props.children}</h1>)
     }
 
-    const MainCard = ({ img, onHeartClick, favoritesStatus }) => {
-      console.log("favoritesStatus", favoritesStatus)
+    const MainCard = ({ img, onHeartClick, alreadyFavorite }) => {
 
-      const heartIcon = favoritesStatus ? "💖" : "🤍";
+      const heartIcon = alreadyFavorite ? "💖" : "🤍";
 
       return (<div className="main-card">
         <img src={img} alt="고양이" width="400" />
@@ -151,8 +155,8 @@
         setMainCat(newCat);
       }
 
-      //const alreadyFavorite = favorites.includes(mainCat);
-      const [favoritesStatus, setFavoritesStatus] = React.useState(favorites.includes(mainCat));
+      const alreadyFavorite = favorites.includes(mainCat);
+
       React.useEffect(() => {
         setInitCat();
       }, [])
@@ -171,34 +175,21 @@
       }
 
       function handlerHeartCl() {
-
-        if (favoritesStatus) {
-          //const nextFavorites = [...favorites, mainCat];
-          setFavoritesStatus(false);
-
-        } else {
-          setFavoritesStatus(true);
-          const nextFavorites = [...favorites, mainCat];
-          setFavorites(nextFavorites);
-          jsonLocalStorage.setItem("favorites", nextFavorites);
-        }
-
-
+        const nextFavorites = [...favorites, mainCat];
         setFavorites(nextFavorites);
-        jsonLocalStorage.setItem("favorites", nextFavorites);
+        jsonLocalStorage.setItem(counter + "favorites", nextFavorites);
       }
+
       const cntCat = counter === null ? '' : counter + '번째 '
       return (
         <div>
           <Title>{cntCat}고양이 가라사대</Title>
           <Form updateMainCat={updateMainCat} />
-          <MainCard img={mainCat} onHeartClick={handlerHeartCl} favoritesStatus={favoritesStatus} />
+          <MainCard img={mainCat} onHeartClick={handlerHeartCl} alreadyFavorite={alreadyFavorite} />
           <Favorites favorites={favorites} />
         </div>)
     }
 
-
-    const 여기다가그려 = document.querySelector('#app');
 
     ReactDOM.render(<App />, 여기다가그려);
 
