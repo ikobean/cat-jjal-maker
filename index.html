@@ -43,6 +43,9 @@
       getItem: (key) => {
         return JSON.parse(localStorage.getItem(key));
       },
+      removeItem: (key) => {
+        localStorage.removeItem(key)
+      }
     };
 
     console.log("야옹");
@@ -56,15 +59,13 @@
 
 
 
-
     const Title = (props) => {
       return (<h1>{props.children}</h1>)
     }
 
-    const MainCard = ({ img, onHeartClick, favoritesStatus }) => {
-      console.log("favoritesStatus", favoritesStatus)
+    const MainCard = ({ img, onHeartClick, alreadyFavorite }) => {
 
-      const heartIcon = favoritesStatus ? "💖" : "🤍";
+      const heartIcon = alreadyFavorite ? "💖" : "🤍";
 
       return (<div className="main-card">
         <img src={img} alt="고양이" width="400" />
@@ -75,9 +76,9 @@
     //component는 무조건 대문자로 시작해야함
     function CatItem(props) {
       return (
-        <li>
-          <img src={props.img} style={{ width: "150px" }} />
-        </li>);
+
+        <img src={props.img} style={{ width: "150px" }} />
+      );
     }
 
     const Form = ({ updateMainCat }) => {
@@ -151,8 +152,8 @@
         setMainCat(newCat);
       }
 
-      //const alreadyFavorite = favorites.includes(mainCat);
-      const [favoritesStatus, setFavoritesStatus] = React.useState(favorites.includes(mainCat));
+      const alreadyFavorite = favorites.includes(mainCat);
+
       React.useEffect(() => {
         setInitCat();
       }, [])
@@ -170,33 +171,28 @@
 
       }
 
-      function handlerHeartCl() {
+      function handlerHeartCl(value) {
 
-        if (favoritesStatus) {
-          //const nextFavorites = [...favorites, mainCat];
-          setFavoritesStatus(false);
-
+        if (alreadyFavorite) {
+          const nextFavorites = favorites.filter(favorite => favorite != mainCat);
+          setFavorites(nextFavorites);
+          jsonLocalStorage.removeItem(mainCat + value, mainCat);
         } else {
-          setFavoritesStatus(true);
           const nextFavorites = [...favorites, mainCat];
           setFavorites(nextFavorites);
-          jsonLocalStorage.setItem("favorites", nextFavorites);
+          jsonLocalStorage.setItem(mainCat + value, mainCat);
         }
-
-
-        setFavorites(nextFavorites);
-        jsonLocalStorage.setItem("favorites", nextFavorites);
       }
+
       const cntCat = counter === null ? '' : counter + '번째 '
       return (
         <div>
           <Title>{cntCat}고양이 가라사대</Title>
           <Form updateMainCat={updateMainCat} />
-          <MainCard img={mainCat} onHeartClick={handlerHeartCl} favoritesStatus={favoritesStatus} />
+          <MainCard img={mainCat} onHeartClick={handlerHeartCl} alreadyFavorite={alreadyFavorite} />
           <Favorites favorites={favorites} />
         </div>)
     }
-
 
     const 여기다가그려 = document.querySelector('#app');
 
