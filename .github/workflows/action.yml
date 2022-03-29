@@ -15,7 +15,7 @@ jobs:
       uses: actions/checkout@main
     # npm install
     - name: npm install
-      uses: npm install gh-pages
+      run: npm install gh-pages
     # 빌드
     - name: Build
       run: npm run build    
