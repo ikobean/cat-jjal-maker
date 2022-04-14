@@ -1,3 +1,4 @@
+import React from "react"
 const Form = ({ updateMainCat }) => {
     const includesHangul = (text) => /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/i.test(text);
     const [value, setValue] = React.useState('');
@@ -16,10 +17,10 @@ const Form = ({ updateMainCat }) => {
     function handleFormSubmit(e) {
         e.preventDefault();
         setErrorMsg('');
-        if (value == '') {
+        if (value === '') {
             setErrorMsg('빈 값은 입력할 수 없습니다.');
             return;
-        } else if (value == '사랑해') {
+        } else if (value === '사랑해') {
             alert("나도 밍밍💖");
             return;
         }

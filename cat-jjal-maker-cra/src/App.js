@@ -1,9 +1,10 @@
-import logo from './logo.svg';
 import './App.css';
 import React from "react"
 import Title from "./components/Title"
 import Form from "./components/Form"
 import MainCard from "./components/MainCard"
+import Favorites from "./components/Favorites"
+
 
 const jsonLocalStorage = {
   setItem: (key, value) => {
@@ -17,8 +18,6 @@ const jsonLocalStorage = {
   }
 };
 
-console.log("야옹");
-
 const fetchCat = async (text) => {
   const OPEN_API_DOMAIN = "https://cataas.com";
   const response = await fetch(`${OPEN_API_DOMAIN}/cat/says/${text}?json=true`);
@@ -26,33 +25,8 @@ const fetchCat = async (text) => {
   return `${OPEN_API_DOMAIN}/${responseJson.url}`;
 };
 
-
-
-
-//component는 무조건 대문자로 시작해야함
-function CatItem(props) {
-  return (
-
-    <img src={props.img} style={{ width: "150px" }} />
-  );
-}
-function Favorites({ favorites }) {
-  if (favorites.length == 0) {
-    return <div>사진 위 하트를 눌러 고양이 사진을 저장해봐요!</div>
-  }
-  return (
-    <ul className="favorites">
-      {favorites.map(cat => <CatItem img={cat} key={cat} />)}
-    </ul>)
-}
-
 const App = () => {
 
-  const CAT1 = "https://cataas.com/cat/60b73094e04e18001194a309/says/react";
-  const CAT2 = "https://cataas.com//cat/5e9970351b7a400011744233/says/inflearn";
-  const CAT3 = "https://cataas.com/cat/595f280b557291a9750ebf65/says/JavaScript";
-
-  //const [counter, setCounter] = React.useState(jsonLocalStorage.getItem("counter"));
   const [counter, setCounter] = React.useState(() => {
     return jsonLocalStorage.getItem("counter");
   });
@@ -90,7 +64,7 @@ const App = () => {
   function handlerHeartCl(value) {
 
     if (alreadyFavorite) {
-      const nextFavorites = favorites.filter(favorite => favorite != mainCat);
+      const nextFavorites = favorites.filter(favorite => favorite !== mainCat);
       setFavorites(nextFavorites);
       jsonLocalStorage.removeItem(mainCat + value, mainCat);
     } else {
@@ -109,6 +83,5 @@ const App = () => {
       <Favorites favorites={favorites} />
     </div>)
 }
-
 
 export default App;
