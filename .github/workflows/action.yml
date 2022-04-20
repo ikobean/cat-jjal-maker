@@ -17,6 +17,6 @@ jobs:
         run: npm install gh-pages
 
       - name: Build and Deploy
-        run: 
+        run: |
           npm run build
           enpm run deploy
