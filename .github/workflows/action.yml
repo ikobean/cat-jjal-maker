@@ -1,24 +1,22 @@
-# Workflow 이름
-name: dev-cat-jjal-maker            
-# Event 감지
-on: [push]                            
-# Job 설정
-jobs:                                
-  # Job 이름
-  build-and-deploy:                
-    # Job 가상환경 인스턴스
-    runs-on: ubuntu-latest           
-    # Step 설정
-    steps:                          
-    # checkout actions 사용
-    - name: Checkout
-      uses: actions/checkout@main
-    # npm install
-    - name: npm install
-      run: npm install gh-pages
-    # 빌드
-    - name: Build
-      run: npm run build    
-    # 디플로이
-    - name: Github-Deploy
-      run: npm run deploy                
+name: dev-cat-jjal-maker
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: npm install
+        run: npm install gh-pages
+
+      - name: Build and Deploy
+        run: 
+          npm run build
+          enpm run deploy
