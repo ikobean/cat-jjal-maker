@@ -15,9 +15,11 @@ jobs:
 
       - name: npm install
         run: npm install gh-pages
-
-      - name: Build
-        run: npm run build
+        
+      - name: git
+        run: |
+          cd cat-jjal-maker-cra
+          npm run build
       
       - name: Deploy
         run: npm run deploy
