@@ -19,4 +19,4 @@ jobs:
       - name: Build and Deploy
         run: |
           npm run build
-          enpm run deploy
+          npm run deploy
