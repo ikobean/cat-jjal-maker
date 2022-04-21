@@ -19,6 +19,7 @@ jobs:
       - name: git
         run: |
           cd cat-jjal-maker-cra
+          npm install -g create-react-app
           npm run build
       
       - name: Deploy
